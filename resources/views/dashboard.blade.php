@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Lista de Contas')
+@section('title', 'Dashboard')
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Lista de Contas</h2>
+                <h2>Dashboard</h2>
                 <a href="/accounts/create" class="btn btn-primary">Nova Conta</a>
             </div>
 
             <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Contas</h3>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -83,7 +86,7 @@
         }
     }
 
-    // Carrega as contas quando a página é carregada
+    // Carrega as contas quando a página for carregada
     document.addEventListener('DOMContentLoaded', loadAccounts);
 </script>
 @endsection 

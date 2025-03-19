@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::get('/accounts/create', function () {
@@ -12,4 +12,12 @@ Route::get('/accounts/create', function () {
 
 Route::get('/accounts', function () {
     return view('accounts.index');
+});
+
+Route::get('/accounts/{id}/edit', function ($id) {
+    return view('accounts.edit');
+});
+
+Route::get('/accounts/{id}', function ($id) {
+    return view('accounts.show');
 });

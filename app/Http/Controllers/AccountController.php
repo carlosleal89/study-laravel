@@ -45,7 +45,7 @@ class AccountController extends Controller
             'product_catalog_id' => 'required|integer'
         ]);
 
-        $accountId->update($validate);
+        $account->update($validate);
         return response()->json($account, 200);   
     }
 
