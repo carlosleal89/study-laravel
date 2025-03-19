@@ -20,13 +20,13 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nome da Conta</th>
-                                    <th>App Key</th>
-                                    <th>App Token</th>
-                                    <th>Informações</th>
-                                    <th>ID do Catálogo</th>
-                                    <th>Ações</th>
+                                    <th class="w-5">ID</th>
+                                    <th class="w-15">Nome da Conta</th>
+                                    <th class="w-20 text-truncate">App Key</th>
+                                    <th class="w-20 text-truncate">App Token</th>
+                                    <th class="w-15">Informações</th>
+                                    <th class="w-10">ID do Catálogo</th>
+                                    <th class="w-15">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="accountsTable">
@@ -51,14 +51,16 @@
                 <tr>
                     <td>${account.id}</td>
                     <td>${account.account_name}</td>
-                    <td>${account.app_key}</td>
-                    <td>${account.app_token}</td>
+                    <td class="text-truncate" style="max-width: 200px;">${account.app_key}</td>
+                    <td class="text-truncate" style="max-width: 200px;">${account.app_token}</td>
                     <td>${account.info}</td>
                     <td>${account.product_catalog_id}</td>
                     <td>
-                        <a href="/accounts/${account.id}" class="btn btn-sm btn-info">Ver</a>
-                        <a href="/accounts/${account.id}/edit" class="btn btn-sm btn-warning">Editar</a>
-                        <button class="btn btn-sm btn-danger" onclick="deleteAccount(${account.id})">Excluir</button>
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <a href="/accounts/${account.id}" class="btn btn-sm btn-info">Ver</a>
+                            <a href="/accounts/${account.id}/edit" class="btn btn-sm btn-warning">Editar</a>
+                            <button class="btn btn-sm btn-danger" onclick="deleteAccount(${account.id})">Excluir</button>
+                        </div>
                     </td>
                 </tr>
             `).join('');
