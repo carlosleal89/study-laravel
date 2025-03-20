@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Batch;
 use App\Models\Account;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class BatchController extends Controller
 {
@@ -16,7 +18,7 @@ class BatchController extends Controller
                 'accountName' => 'required|string',
                 'productIds' => 'required|array',
                 'productIds.*' => 'required|numeric|min:1',
-                'batchName' => 'required|string'
+                'batchName' => 'string'
             ]);
 
             $account_name = $request->accountName;
@@ -40,8 +42,21 @@ class BatchController extends Controller
                 }
             }
 
+            $batch_id = Str::uuid();
 
-            return response()->json($account);
+            // obtém a data e hora atual da classe Carbon
+            $datetimeStr = Carbon::now()->format('d/m/Y H:i:s');
+
+            // obtém 'batchName' do request ou usa um valor padrão
+            $batchName = $request->input('batchName', "Lote {$datetimeStr}");
+
+            // Cria o registro na tabela batches
+            $batch = $this->store($account->id, $batch_id, $batchName);
+
+            return response()->json([
+                'success' => true,
+                'data' => $batch
+            ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             error_log("Erro: " . $e->getMessage());
@@ -49,6 +64,24 @@ class BatchController extends Controller
         } catch (\Exception $e) {
             error_log("Erro: " . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    private function store($accountName, $batch_id, $batch_name)
+    {
+        try {
+            $batch = Batch::create([
+                'account_name' => $accountName,
+                'batchId' => $batch_id,
+                'batchName' => $batch_name
+            ]);
+
+            Log::info("Batch criado com sucesso:", ['batch' => $batch]);
+
+            return $batch;
+        } catch (\Exception $e) {
+            Log::error("Erro ao criar batch no banco: " . $e->getMessage());
+            throw $e;
         }
     }
 }
