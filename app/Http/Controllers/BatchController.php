@@ -13,11 +13,22 @@ class BatchController extends Controller
     {
         try {
             $validate = $request->validate([
-                'accountName' => 'required',
+                'accountName' => 'required|string',
                 'productIds' => 'required|array',
                 'productIds.*' => 'required|numeric|min:1',
                 'batchName' => 'required|string'
             ]);
+
+            $account_name = $request->accountName;
+            $account = Account::where('account_name', $account_name)->first();
+
+            // verifica se o accountName existe
+            if (!$account) {
+                Log::error("Conta não encontrada.");
+                return response()->json([
+                    'error' => 'Conta não encontrada.'
+                ], 404);
+            }
 
             // valida se todos os ids são números
             foreach ($request->productIds as $id) {
@@ -29,8 +40,6 @@ class BatchController extends Controller
                 }
             }
 
-            $account_name = $request->accountName;
-            $account = Account::where('account_name', $account_name)->first();
 
             return response()->json($account);
             
