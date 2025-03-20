@@ -36,9 +36,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/accounts/{id}', function ($id) {
         return view('accounts.show');
     })->name('accounts.show');
-
-    // Rotas da API (JSON)
-    Route::prefix('api')->group(function () {
-        Route::resource('accounts', AccountController::class);
-    });
 });

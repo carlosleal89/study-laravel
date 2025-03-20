@@ -26,7 +26,7 @@ class AuthController extends Controller
             }
 
             return back()->withErrors([
-                'email' => 'As credenciais fornecidas não correspondem aos nossos registros.',
+                'email' => 'As credenciais incorretas.',
             ])->onlyInput('email');
         } catch (\Exception $e) {
             error_log("Erro no login: " . $e->getMessage());

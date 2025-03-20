@@ -87,9 +87,22 @@ class AccountController extends Controller
     }
 
     //deleta um registro pelo id
-    public function destroy(Account $account)
+    public function destroy(int $id)
     {
-        $account->delete();
-        return response()->json(null, 204);
+        try {
+            $account = Account::find($id);
+
+            if (!$account) {
+                error_log("Conta não encontrada com ID: " . $id);
+                return response()->json(['error' => 'Conta não encontrada'], 404);
+            }
+
+            $account->delete();
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            $error_message = $e->getMessage();
+            error_log("Erro ao buscar conta: " . $error_message);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
